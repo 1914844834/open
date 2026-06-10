@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Budget Fuse</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; background: #07111f; color: #e7f0ff; }
+    body { max-width: 980px; margin: 0 auto; padding: 40px 20px; }
+    header, section { background: #0d1b2e; border: 1px solid #253957; border-radius: 18px; padding: 24px; margin-bottom: 18px; }
+    h1 { margin: 0 0 8px; font-size: clamp(2rem, 6vw, 4rem); }
+    .tag { color: #78e6c0; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    label { display: grid; gap: 7px; color: #aac0df; }
+    input, select, button { padding: 12px; border-radius: 10px; border: 1px solid #385274; background: #091524; color: white; }
+    button { cursor: pointer; background: #16a37a; border: 0; font-weight: 800; }
+    button.secondary { background: #263d5c; }
+    .meter { height: 14px; background: #06101d; border-radius: 99px; overflow: hidden; margin: 16px 0; }
+    .meter span { display: block; height: 100%; background: #20d6a0; transition: width .2s; }
+    .approved { color: #78e6c0; }
+    .denied { color: #ff8a8a; }
+    pre { overflow: auto; background: #06101d; padding: 16px; border-radius: 12px; color: #bdd2ef; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="tag">Solana Native Allowances Demo</div>
+    <h1>Agent Budget Fuse</h1>
+    <p>Give an autonomous AI agent useful spending power without giving it unlimited custody.</p>
+  </header>
+
+  <section>
+    <h2>1. Set the guardrail</h2>
+    <div class="grid">
+      <label>Allowance model
+        <select id="model"><option value="fixed">Fixed total budget</option><option value="recurring">Recurring budget</option></select>
+      </label>
+      <label>Limit in USDC <input id="limit" type="number" min="1" value="100"></label>
+      <label>Period <select id="period"><option>day</option><option>week</option><option>month</option></select></label>
+    </div>
+    <button id="create">Create allowance</button>
+  </section>
+
+  <section>
+    <h2>2. Let the agent request a purchase</h2>
+    <div class="grid">
+      <label>Service <input id="service" value="Canadian weather API"></label>
+      <label>Cost in USDC <input id="amount" type="number" min=".01" step=".01" value="12"></label>
+    </div>
+    <button id="spend">Request spend</button>
+    <button id="reset" class="secondary">Advance one period</button>
+    <div class="meter"><span id="meter"></span></div>
+    <strong id="remaining"></strong>
+    <p id="result">Create an allowance to begin.</p>
+  </section>
+
+  <section>
+    <h2>3. Generated integration shape</h2>
+    <p>This demo models enforcement locally. A production app replaces the model with the audited Solana Subscriptions Delegation Program.</p>
+    <pre id="code"></pre>
+  </section>
+  <script type="module" src="./ui.js"></script>
+</body>
+</html>
